@@ -10,18 +10,23 @@ namespace CensusAnalyser
     {
 
         int numberOfRecords = default;
-        string file;
+        readonly string file;
 
         /// <summary>
         /// constructor with string parameter
         /// </summary>
         /// <param name="file"> path of file </param>
         public StateCensusAnalyser(string file)
-        {   
-            this.file = file;
+        {
+            this.file = file;        
         }
 
-        public int ReadRecords()
+        public int GetNoOfRecords()
+        {
+            return numberOfRecords;
+        }
+
+        public void ReadRecords()
         {
             try
             {
@@ -30,14 +35,12 @@ namespace CensusAnalyser
                 {
                     this.numberOfRecords++;
                 }
-                return numberOfRecords;
             }
-            catch(FileNotFoundException)
+            catch (IOException)
             {
                 throw new CensusAnalyserException(CensusAnalyserException.CensusExceptionType.file_not_found, "Wrong file path or file missing");
             }
         }
-
         /// <summary>
         /// main method
         /// </summary>
