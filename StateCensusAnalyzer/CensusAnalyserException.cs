@@ -11,7 +11,7 @@ namespace StateCensusAnalyzer
     {
         public enum CensusExceptionType
         {
-            fileNotFound, incorrectType
+            fileNotFound, incorrectType, incorrectDelimeter
         }
 
         //variables

@@ -20,7 +20,10 @@ namespace CensusAnalyser
         {
             try
             {
-                if (!file.Contains(".csv"))
+                if (file[file.Length - 4] != '.')
+                    throw new CensusAnalyserException(CensusAnalyserException.CensusExceptionType.incorrectDelimeter, "delimter is wrong for file type in path");
+
+                if (!file.EndsWith(".csv"))
                     throw new CensusAnalyserException(CensusAnalyserException.CensusExceptionType.incorrectType, "file type is incorrect");
                 this.file = file;
             }
