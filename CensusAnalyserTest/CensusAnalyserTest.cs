@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using CensusAnalyser;
 
 namespace CensusAnalyserTest
 {
@@ -10,9 +11,12 @@ namespace CensusAnalyserTest
         }
 
         [Test]
-        public void Test1()
+        public void MatchNumberOfRecords()
         {
-            Assert.Pass();
+            int expected = 27;
+            StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv");
+            int actual = stateCensusAnalyser.ReadRecords();
+            Assert.AreEqual(expected, actual);
         }
     }
 }

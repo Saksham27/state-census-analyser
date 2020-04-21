@@ -1,11 +1,12 @@
 ﻿using LumenWorks.Framework.IO.Csv;
+using StateCensusAnalyzer;
 using System;
 using System.IO;
 using System.Text;
 
-namespace StateCensusAnalyzer
+namespace CensusAnalyser
 {
-    class StateCensusAnalyser
+    public class StateCensusAnalyser
     {
 
         int numberOfRecords = default;
@@ -20,7 +21,7 @@ namespace StateCensusAnalyzer
             this.file = file;
         }
 
-        public void ReadRecords()
+        public int ReadRecords()
         {
             try
             {
@@ -29,14 +30,11 @@ namespace StateCensusAnalyzer
                 {
                     this.numberOfRecords++;
                 }
+                return numberOfRecords;
             }
             catch(FileNotFoundException)
             {
                 throw new CensusAnalyserException(CensusAnalyserException.CensusExceptionType.file_not_found, "Wrong file path or file missing");
-            }
-            catch(Exception exception)
-            {
-                Console.WriteLine(exception.Message);
             }
         }
 

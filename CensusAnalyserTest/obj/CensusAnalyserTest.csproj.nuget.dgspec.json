@@ -27,8 +27,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\StateCensusAnalyzer.csproj": {
-                "projectPath": "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\StateCensusAnalyzer.csproj"
+              "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\CensusAnalyser.csproj": {
+                "projectPath": "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\CensusAnalyser.csproj"
               }
             }
           }
@@ -74,12 +74,12 @@
         }
       }
     },
-    "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\StateCensusAnalyzer.csproj": {
+    "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\CensusAnalyser.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\StateCensusAnalyzer.csproj",
-        "projectName": "StateCensusAnalyzer",
-        "projectPath": "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\StateCensusAnalyzer.csproj",
+        "projectUniqueName": "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\CensusAnalyser.csproj",
+        "projectName": "CensusAnalyser",
+        "projectPath": "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\CensusAnalyser.csproj",
         "packagesPath": "C:\\Users\\Saksham\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Saksham\\source\\repos\\StateCensusAnalyzer\\StateCensusAnalyzer\\obj\\",
         "projectStyle": "PackageReference",
