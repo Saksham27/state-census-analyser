@@ -18,7 +18,16 @@ namespace CensusAnalyser
         /// <param name="file"> path of file </param>
         public StateCensusAnalyser(string file)
         {
-            this.file = file;        
+            try
+            {
+                if (!file.Contains(".csv"))
+                    throw new CensusAnalyserException(CensusAnalyserException.CensusExceptionType.incorrectType, "file type is incorrect");
+                this.file = file;
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                Console.WriteLine(exception.Message);
+            }       
         }
 
         public int GetNoOfRecords()
@@ -38,8 +47,9 @@ namespace CensusAnalyser
             }
             catch (IOException)
             {
-                throw new CensusAnalyserException(CensusAnalyserException.CensusExceptionType.file_not_found, "Wrong file path or file missing");
+                throw new CensusAnalyserException(CensusAnalyserException.CensusExceptionType.fileNotFound, "Wrong file path or file missing");
             }
+            
         }
         /// <summary>
         /// main method

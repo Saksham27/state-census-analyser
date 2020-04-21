@@ -26,6 +26,9 @@ namespace CensusAnalyserTest
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        /// Test Case 1.2 : given wrong csv file path , read records should throw exception
+        /// </summary>
         [Test]
         public void GivenCsvFilePAth_WhenImproper_ShouldThrowException()
         {
@@ -33,6 +36,21 @@ namespace CensusAnalyserTest
             try
             {
                 StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateData.csv");
+                stateCensusAnalyser.ReadRecords();
+            }
+            catch (Exception exception)
+            {
+                Assert.AreEqual(expected, exception.Message);
+            }
+        }
+
+        [Test]
+        public void GivenCsvFilePath_WhenTypeImproper_ShouldThrowException()
+        {
+            string expected = "file type is incorrect";
+            try
+            {
+                StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.txt");
                 stateCensusAnalyser.ReadRecords();
             }
             catch (Exception exception)
