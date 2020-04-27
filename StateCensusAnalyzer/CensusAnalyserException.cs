@@ -45,4 +45,18 @@
             this.WrongDelimeter = exception;
         } ////end : public ExceptionWrongDelimeter(string exception, string exceptionMessage) : base(exceptionMessage)
     } ////end : public class ExceptionWrongDelimeter : Exception
+
+    public class ExceptionInvalidHeaders : Exception
+    {
+        public StateCensusException InvalidHeaders;
+        /// <summary>
+        /// Constructor to initlize invalid headers variable
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="exceptionMessage"></param>
+        public ExceptionInvalidHeaders(StateCensusException exception, string exceptionMessage) : base(exceptionMessage)
+        {
+            this.InvalidHeaders = exception;
+        }
+    }
 } ////end : namespace StateCensusAnalyzer

@@ -5,6 +5,6 @@
         /// <summary>
         /// enuumerations for state census exception types
         /// </summary>
-        wrongFile, wrongDelimeter, fileNotFound
+        wrongFile, wrongDelimeter, invalidHeaders, fileNotFound
     }//end : public enum StateCensusException
 }//end : namespace StateCensusAnalyzer

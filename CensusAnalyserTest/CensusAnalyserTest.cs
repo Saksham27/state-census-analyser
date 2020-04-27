@@ -67,7 +67,20 @@ namespace CensusAnalyserTest
         {
             string expected = "File has different delimeter than given";
             StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv");
-            ExceptionWrongDelimeter actual = Assert.Throws<ExceptionWrongDelimeter>(() => stateCensusAnalyser.ReadRecords('.'));
+            ExceptionWrongDelimeter actual = Assert.Throws<ExceptionWrongDelimeter>(() => stateCensusAnalyser.ReadRecords(null,'.'));
+            Assert.AreEqual(expected, actual.Message);
+        }
+
+        /// <summary>
+        /// Test Case 1.5 : given wrong csv file headers, read records should throw exception
+        /// </summary>
+        [Test]
+        public void GivenCsvHeaders_WhenImproper_ShouldThrowException()
+        {
+            string expected = "Headers of file are not valid";
+            string[] header = { "SrNo", "State", "Name", "TIN", "Statecode" };
+            StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv");
+            ExceptionInvalidHeaders actual = Assert.Throws<ExceptionInvalidHeaders>(() => stateCensusAnalyser.ReadRecords(header,','));
             Assert.AreEqual(expected, actual.Message);
         }
     } ////end : public class Tests
