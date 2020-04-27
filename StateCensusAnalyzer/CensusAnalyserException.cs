@@ -1,31 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StateCensusAnalyzer
+﻿namespace StateCensusAnalyzer
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    class CensusAnalyserException : Exception
-    {
-        public enum CensusExceptionType
-        {
-            fileNotFound, incorrectType, incorrectDelimeter
-        }
+    using System;
 
-        //variables
-        CensusExceptionType exceptionType;
+    public class ExceptionFileNotFound : Exception
+    {
+        public StateCensusException FileFoundException;
 
         /// <summary>
-        /// exception method
+        /// Constructor to initlize wrong file exception
         /// </summary>
-        /// <param name="exceptionType"> exception type </param>
-        /// <param name="exceptionMessage"> exception message </param>
-        public CensusAnalyserException(CensusExceptionType exceptionType, string exceptionMessage) : base(exceptionMessage)
+        /// <param name="exception"> exception type </param>
+        /// <param name="exceptionMessage"> message that passed to base Exception class </param>
+        public ExceptionFileNotFound(StateCensusException exception, string exceptionMessage) : base(exceptionMessage)
         {
-            this.exceptionType = exceptionType;
-        }
+            this.FileFoundException = exception;
+        } ////end : public ExceptionFileNotFound(string exception, string exceptionMessage) : base(exceptionMessage)
+    } ////end : public class ExceptionFileNotFound : Exception
 
-    }
-}
+    public class ExceptionWrongFile : Exception
+    {
+        public StateCensusException WrongFileException;       
+        
+        /// <summary>
+        /// Constructor to initilize wrong_file_excep
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="exceptionMessage"> message that passed to base Exception class </param>
+        public ExceptionWrongFile(StateCensusException exception, string exceptionMessage) : base(exceptionMessage)
+        {
+            this.WrongFileException = exception;
+        } ////end : public ExceptionWrongFile(string exception, string exceptionMessage) : base(exceptionMessage)
+    } ////end : public class ExceptionWrongFile : Exception
+
+    public class ExceptionWrongDelimeter : Exception
+    {
+        public StateCensusException WrongDelimeter;  
+        /// <summary>
+        /// Constructor to initlize wrong_delimeter variable
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="exceptionMessage"></param>
+        public ExceptionWrongDelimeter(StateCensusException exception, string exceptionMessage) : base(exceptionMessage)
+        {
+            this.WrongDelimeter = exception;
+        } ////end : public ExceptionWrongDelimeter(string exception, string exceptionMessage) : base(exceptionMessage)
+    } ////end : public class ExceptionWrongDelimeter : Exception
+} ////end : namespace StateCensusAnalyzer
