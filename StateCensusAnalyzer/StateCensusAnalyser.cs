@@ -12,7 +12,7 @@ namespace CensusAnalyser
         int numberOfRecords = 0;
         string filePath;
         char delimeter;
-        string[] headers = { "State", "Population", "AreaInSqKm", "DensityPerSqKm" };
+        readonly string[] headers = { "State", "Population", "AreaInSqKm", "DensityPerSqKm" };
 
         public StateCensusAnalyser(string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv")
         {
@@ -117,8 +117,6 @@ namespace CensusAnalyser
             }
             return true;
         }
-
-
     }//end:CensusAnalysisClass
 }//end:namespace CensusAnalysis
 

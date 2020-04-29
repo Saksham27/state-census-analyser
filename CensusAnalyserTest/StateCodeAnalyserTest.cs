@@ -11,17 +11,22 @@ namespace CensusAnalyserTest
     class StateCodeAnalyserTest
     {
         /// <summary>
+        /// file path constant for the actual file
+        /// </summary>
+        internal const string FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
+
+        /// <summary>
         /// Test Case 2.1 : Test to check number of records
         /// </summary>
         [Test]
         public void TestNumberOfRecords()
         {
             // create object to StateCodeAnalysis 
-            StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser();
+            StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(FilePath);
             // call read records method to load and read file
             stateCodeAnalyser.ReadRecords();
             // call numberof records method to get total records number
-            var records = stateCodeAnalyser.NumberOfRecords();
+            int records = stateCodeAnalyser.NumberOfRecords();
             Assert.AreEqual(37, records);
         }//// end : public void TestNumberOfRecords()
 
@@ -46,6 +51,18 @@ namespace CensusAnalyserTest
             string expected = "file type is incorrect";
             StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.txt");
             ExceptionWrongFile actual = Assert.Throws<ExceptionWrongFile>(() => stateCodeAnalyser.ReadRecords());
+            Assert.AreEqual(expected, actual.Message);
+        }
+
+        /// <summary>
+        /// Test Case 2.4 : given wrong csv file type delimeter , read records should throw exception
+        /// </summary>
+        [Test]
+        public void GivenCsvFilePath_WhenTypeDelimeterImproper_ShouldThrowException()
+        {
+            string expected = "File has different delimeter than given";
+            StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv");
+            ExceptionWrongDelimeter actual = Assert.Throws<ExceptionWrongDelimeter>(() => stateCodeAnalyser.ReadRecords(null, '.'));
             Assert.AreEqual(expected, actual.Message);
         }
     }//// end : class StateCodeAnalyserTest
