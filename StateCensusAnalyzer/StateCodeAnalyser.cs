@@ -32,9 +32,9 @@
                     while (State_code_reader.ReadNextRecord()) recordsCount++;
                 }
             }
-            catch (ExceptionFileNotFound exceptionMessage)
+            catch (FileNotFoundException)
             {
-                Console.WriteLine(exceptionMessage.Message);
+                throw new ExceptionFileNotFound(StateCensusException.fileNotFound, "Wrong file path or file missing");
             }
             catch (Exception exceptionMessage)
             {

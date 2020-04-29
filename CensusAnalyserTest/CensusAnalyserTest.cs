@@ -42,7 +42,7 @@ namespace CensusAnalyserTest
         public void GivenCsvFilePAth_WhenImproper_ShouldThrowException()
         {
             string expected = "Wrong file path or file missing";
-            StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateData.csv");
+             StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateData.csv");
             ExceptionFileNotFound actual = Assert.Throws<ExceptionFileNotFound>(() => stateCensusAnalyser.ReadRecords());
             Assert.AreEqual(expected, actual.Message);
         }
