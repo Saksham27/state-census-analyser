@@ -26,11 +26,19 @@
         {
             try
             {
+                if (!filepath.EndsWith(".csv"))
+                {
+                    throw new ExceptionWrongFile(StateCensusException.wrongFile, "file type is incorrect");
+                }
                 using (CsvReader State_code_reader = new CsvReader(new StreamReader(filepath)))
                 {
                     // loop and count the number of records in the file
                     while (State_code_reader.ReadNextRecord()) recordsCount++;
                 }
+            }
+            catch (ExceptionWrongFile)
+            {
+                throw new ExceptionWrongFile(StateCensusException.wrongFile, "file type is incorrect");
             }
             catch (FileNotFoundException)
             {

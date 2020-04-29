@@ -7,7 +7,7 @@ namespace CensusAnalyserTest
     /// <summary>
     /// class that contains all the unit test methods
     /// </summary>
-    public class Tests
+    public class StateCensusAnalyserTest
     {
         /// <summary>
         /// file path constant for the actual file

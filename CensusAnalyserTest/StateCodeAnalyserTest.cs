@@ -36,5 +36,17 @@ namespace CensusAnalyserTest
             ExceptionFileNotFound actual = Assert.Throws<ExceptionFileNotFound>(() => stateCodeAnalyser.ReadRecords());
             Assert.AreEqual(expected, actual.Message);
         }
+
+        /// <summary>
+        /// Test Case 2.3 : given wrong csv file type , read records should throw exception
+        /// </summary>
+        [Test]
+        public void GivenCsvFilePath_WhenTypeImproper_ShouldThrowException()
+        {
+            string expected = "file type is incorrect";
+            StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.txt");
+            ExceptionWrongFile actual = Assert.Throws<ExceptionWrongFile>(() => stateCodeAnalyser.ReadRecords());
+            Assert.AreEqual(expected, actual.Message);
+        }
     }//// end : class StateCodeAnalyserTest
 }//// end : namespace CensusAnalyserTest
