@@ -116,5 +116,5 @@
             }
             return true;
         }
-    }//end:CensusAnalysisClass
-}//end:namespace CensusAnalysis
+    }//end : public class StateCodeAnalyser
+}//end : namespace CensusAnalysis

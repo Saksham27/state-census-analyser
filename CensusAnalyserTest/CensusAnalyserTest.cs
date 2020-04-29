@@ -83,5 +83,5 @@ namespace CensusAnalyserTest
             ExceptionInvalidHeaders actual = Assert.Throws<ExceptionInvalidHeaders>(() => stateCensusAnalyser.ReadRecords(header,','));
             Assert.AreEqual(expected, actual.Message);
         }
-    } ////end : public class Tests
+    } ////end : public class StateCensusAnalyserTest
 } ////end : namespace CensusAnalyserTest
