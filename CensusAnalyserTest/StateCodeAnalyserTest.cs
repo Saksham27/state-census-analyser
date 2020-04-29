@@ -11,9 +11,20 @@ namespace CensusAnalyserTest
     class StateCodeAnalyserTest
     {
         /// <summary>
-        /// file path constant for the actual file
+        /// creating object for StateCodeAnalyser
         /// </summary>
-        internal const string FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
+        readonly StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser();
+        /// <summary>
+        /// Setup method
+        /// </summary>
+        [SetUp]
+        public void Setup()
+        {
+            // setting filePath property
+            stateCodeAnalyser.FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
+            // setting NumberOfRecords property
+            stateCodeAnalyser.NumberOfRecords = 0;
+        }
 
         /// <summary>
         /// Test Case 2.1 : Test to check number of records
@@ -21,12 +32,10 @@ namespace CensusAnalyserTest
         [Test]
         public void TestNumberOfRecords()
         {
-            // create object to StateCodeAnalysis 
-            StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(FilePath);
             // call read records method to load and read file
             stateCodeAnalyser.ReadRecords();
             // call numberof records method to get total records number
-            int records = stateCodeAnalyser.NumberOfRecords();
+            int records = stateCodeAnalyser.NumberOfRecords;
             Assert.AreEqual(37, records);
         }//// end : public void TestNumberOfRecords()
 
@@ -37,7 +46,7 @@ namespace CensusAnalyserTest
         public void GivenCsvFilePAth_WhenImproper_ShouldThrowException()
         {
             string expected = "Wrong file path or file missing";
-            StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateData.csv");
+            stateCodeAnalyser.FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateData.csv";
             ExceptionFileNotFound actual = Assert.Throws<ExceptionFileNotFound>(() => stateCodeAnalyser.ReadRecords());
             Assert.AreEqual(expected, actual.Message);
         }
@@ -49,7 +58,7 @@ namespace CensusAnalyserTest
         public void GivenCsvFilePath_WhenTypeImproper_ShouldThrowException()
         {
             string expected = "file type is incorrect";
-            StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.txt");
+            stateCodeAnalyser.FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.txt";
             ExceptionWrongFile actual = Assert.Throws<ExceptionWrongFile>(() => stateCodeAnalyser.ReadRecords());
             Assert.AreEqual(expected, actual.Message);
         }
@@ -61,7 +70,6 @@ namespace CensusAnalyserTest
         public void GivenCsvFilePath_WhenTypeDelimeterImproper_ShouldThrowException()
         {
             string expected = "File has different delimeter than given";
-            StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv");
             ExceptionWrongDelimeter actual = Assert.Throws<ExceptionWrongDelimeter>(() => stateCodeAnalyser.ReadRecords(null, '.'));
             Assert.AreEqual(expected, actual.Message);
         }
@@ -74,7 +82,6 @@ namespace CensusAnalyserTest
         {
             string expected = "Headers of file are not valid";
             string[] header = { "SrNo", "State", "Name", "TIN", "Statecode" };
-            StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(@"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv");
             ExceptionInvalidHeaders actual = Assert.Throws<ExceptionInvalidHeaders>(() => stateCodeAnalyser.ReadRecords(header, ','));
             Assert.AreEqual(expected, actual.Message);
         }

@@ -10,19 +10,14 @@
     public class StateCodeAnalyser
     {
         // read only path variable
-        readonly string filePath;
+        public string FilePath { get; set; }
         // variable to count numberof variables
-        int numberOfRecords = 0;
+        public int NumberOfRecords { get; set; }
         // variable for delimeter character
         char delimeter;
 
         // string array to store csv headers
         readonly string[] headers = { "SrNo", "State", "Name", "TIN", "StateCode", "Column5" };
-
-        public StateCodeAnalyser(string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv")
-        {
-            this.filePath = path;
-        }
 
         /// <summary>
         /// Method to read csv Records
@@ -36,18 +31,18 @@
                     inputHeaders = headers;
                 }
                 // if the given file is not csv file rise exception
-                if (!filePath.EndsWith(".csv"))
+                if (!FilePath.EndsWith(".csv"))
                 {
                     throw new ExceptionWrongFile(StateCensusException.wrongFile, "file type is incorrect");
                 }
-                var records = new StreamReader(filePath);
+                var records = new StreamReader(FilePath);
                 using (CsvReader csvRecords = new CsvReader(records))
                 {
 
                     // count number of records
                     while (csvRecords.ReadNextRecord())
                     {
-                        numberOfRecords++;
+                        NumberOfRecords++;
                     }
                     // get delimeter 
                     delimeter = csvRecords.Delimiter;
@@ -89,10 +84,7 @@
         /// Method to return total number of records in the given file
         /// </summary>
         /// <returns></returns>
-        public int NumberOfRecords()
-        {
-            return numberOfRecords;
-        }
+ 
 
         public dynamic Delimeter()
         {

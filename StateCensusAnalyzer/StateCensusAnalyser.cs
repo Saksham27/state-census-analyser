@@ -1,6 +1,7 @@
 ﻿using LumenWorks.Framework.IO.Csv;
 using StateCensusAnalyzer;
 using System;
+using System.Dynamic;
 using System.IO;
 using System.Text;
 
@@ -9,23 +10,19 @@ namespace CensusAnalyser
     public class StateCensusAnalyser
     {
         // variables
-        int numberOfRecords = 0;
-        string filePath;
+        public int NumberOfRecords { get; set; }
+        public string FilePath { get; set; }
         char delimeter;
         readonly string[] headers = { "State", "Population", "AreaInSqKm", "DensityPerSqKm" };
 
-        public StateCensusAnalyser(string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv")
-        {
-            this.filePath = path;
-        }
         /// <summary>
         /// Main Method
         /// </summary>
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-
         }////end:static void Main(string[] args)
+
         /// <summary>
         /// Method to read csv Records
         /// </summary>
@@ -38,16 +35,16 @@ namespace CensusAnalyser
                     inputHeaders = headers;
                 }
                 // if the given file is not csv file rise exception
-                if (!filePath.EndsWith(".csv"))
+                if (!FilePath.EndsWith(".csv"))
                 {
                     throw new ExceptionWrongFile(StateCensusException.wrongFile, "file type is incorrect");
                 }                    
-                var records = new StreamReader(filePath);
+                var records = new StreamReader(FilePath);
                 using (CsvReader csvRecords = new CsvReader(records))
                 {
 
                     // count number of records
-                    while (csvRecords.ReadNextRecord()) numberOfRecords++;
+                    while (csvRecords.ReadNextRecord()) NumberOfRecords++;
                     // get delimeter 
                     delimeter = csvRecords.Delimiter;
                     // get header details
@@ -92,7 +89,7 @@ namespace CensusAnalyser
         /// <returns></returns>
         public int GetNumberOfRecords()
         {
-            return numberOfRecords;
+            return NumberOfRecords;
         }//end:public int NumberOfRecords()
 
         public dynamic Delimeter()
