@@ -2,24 +2,29 @@ namespace CensusAnalyserTest
 {
     using CensusAnalyser;
     using NUnit.Framework;
-    using StateCensusAnalyzer;
+
 
     /// <summary>
     /// class that contains all the unit test methods
     /// </summary>
     public class StateCensusAnalyserTest
     {
-        readonly StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+        static readonly string filePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
+        /// <summary>
+        /// creating object for StateCodeAnalyser
+        /// </summary>
+        readonly StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(filePath);
         /// <summary>
         /// Setup method
         /// </summary>
         [SetUp]
         public void Setup()
         {
-            stateCensusAnalyser.FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
-            stateCensusAnalyser.NumberOfRecords = 0;
+            // setting filePath property
+            // setting NumberOfRecords property
+            stateCensusAnalyser.numberOfRecords = 0;
         }
-        
+       
         /// <summary>
         /// Test Case 1.1 : Check to ensure no of records matches
         /// </summary>
@@ -28,7 +33,7 @@ namespace CensusAnalyserTest
         {
             int expected = 29;
             stateCensusAnalyser.ReadRecords();
-            int actual = stateCensusAnalyser.GetNumberOfRecords();
+            int actual = stateCensusAnalyser.numberOfRecords;
             Assert.AreEqual(expected, actual);
         }
 

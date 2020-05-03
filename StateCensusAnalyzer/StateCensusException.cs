@@ -1,10 +1,10 @@
-﻿namespace StateCensusAnalyzer
+﻿namespace CensusAnalyser
 {
     public enum StateCensusException
     {
         /// <summary>
         /// enuumerations for state census exception types
         /// </summary>
-        wrongFile, wrongDelimeter, invalidHeaders, fileNotFound
+        fileNotFound, wrongFile, wrongDelimeter, invalidHeaders
     }//end : public enum StateCensusException
 }//end : namespace StateCensusAnalyzer

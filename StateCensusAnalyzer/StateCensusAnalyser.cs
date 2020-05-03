@@ -1,5 +1,5 @@
 ﻿using LumenWorks.Framework.IO.Csv;
-using StateCensusAnalyzer;
+using CensusAnalyser;
 using System;
 using System.Dynamic;
 using System.IO;
@@ -9,28 +9,30 @@ namespace CensusAnalyser
 {
     public class StateCensusAnalyser
     {
-        // variables
-        public int NumberOfRecords { get; set; }
+        // read only path variable
         public string FilePath { get; set; }
-        char delimeter;
-        readonly string[] headers = { "State", "Population", "AreaInSqKm", "DensityPerSqKm" };
 
-        /// <summary>
-        /// Main Method
-        /// </summary>
-        /// <param name="args"></param>
-        static void Main(string[] args)
+        // variable to count numberof variables
+        public int numberOfRecords;
+
+        // variable for delimeter character
+        public char delimeter;
+
+        // string array to store csv headers
+        internal string[] headers;
+
+        public StateCensusAnalyser(string file)
         {
-        }////end:static void Main(string[] args)
-
+            FilePath = file;
+        }
         /// <summary>
         /// Method to read csv Records
         /// </summary>
-        public void ReadRecords( string[] inputHeaders = null, char inputDelimeter = ',')
+        public void ReadRecords(string[] inputHeaders = null, char inputDelimeter = ',')
         {
             try
             {
-                if(inputHeaders is null)
+                if (inputHeaders is null)
                 {
                     inputHeaders = headers;
                 }
@@ -38,26 +40,20 @@ namespace CensusAnalyser
                 if (!FilePath.EndsWith(".csv"))
                 {
                     throw new ExceptionWrongFile(StateCensusException.wrongFile, "file type is incorrect");
-                }                    
-                var records = new StreamReader(FilePath);
-                using (CsvReader csvRecords = new CsvReader(records))
+                }
+                CsvDataReader csvData = new CsvDataReader(FilePath);
+                csvData.ReadData();
+                numberOfRecords = csvData.NumberOfRecords;
+                delimeter = csvData.delimeter;
+                headers = csvData.headers;
+                // if delimeter of file is different raise Exception
+                if (!inputDelimeter.Equals(delimeter))
                 {
-
-                    // count number of records
-                    while (csvRecords.ReadNextRecord()) NumberOfRecords++;
-                    // get delimeter 
-                    delimeter = csvRecords.Delimiter;
-                    // get header details
-                    string[] fileHeaders = csvRecords.GetFieldHeaders();
-                    // if delimeter of file is different raise Exception
-                    if (!inputDelimeter.Equals(delimeter))
-                    {
-                        throw new ExceptionWrongDelimeter(StateCensusException.wrongDelimeter, "File has Different Delimeter");
-                    }
-                    if(!IsHeaderSame(fileHeaders, inputHeaders))
-                    {
-                        throw new ExceptionInvalidHeaders(StateCensusException.invalidHeaders, "Headers of file are not valid");
-                    }
+                    throw new ExceptionWrongDelimeter(StateCensusException.wrongDelimeter, "File has Different Delimeter");
+                }
+                if (!CheckIfHeaderSame(headers, inputHeaders))
+                {
+                    throw new ExceptionInvalidHeaders(StateCensusException.invalidHeaders, "Headers of file are not valid");
                 }
             }
             catch (ExceptionWrongFile)
@@ -72,25 +68,11 @@ namespace CensusAnalyser
             {
                 throw new ExceptionInvalidHeaders(StateCensusException.invalidHeaders, "Headers of file are not valid");
             }
-            
-            catch (FileNotFoundException)
+            catch (Exception ex)
             {
-                throw new ExceptionFileNotFound(StateCensusException.fileNotFound, "Wrong file path or file missing");
-            }
-            catch (Exception ex) 
-            { 
-                Console.WriteLine(ex.Message); 
+                Console.WriteLine(ex.Message);
             }
         }//end:public void ReadRecords()
-
-        /// <summary>
-        /// Method to return number of records in the file
-        /// </summary>
-        /// <returns></returns>
-        public int GetNumberOfRecords()
-        {
-            return NumberOfRecords;
-        }//end:public int NumberOfRecords()
 
         public dynamic Delimeter()
         {
@@ -103,7 +85,7 @@ namespace CensusAnalyser
         /// <param name="header1"></param>
         /// <param name="header2"></param>
         /// <returns>return true if both string are equal else return false</returns>
-        public bool IsHeaderSame(string[] header1, string[] header2)
+        public bool CheckIfHeaderSame(string[] header1, string[] header2)
         {
             // if length os the strings different return false
             if (header1.Length != header2.Length) return false;

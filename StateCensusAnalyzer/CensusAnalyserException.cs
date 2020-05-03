@@ -1,4 +1,4 @@
-﻿namespace StateCensusAnalyzer
+﻿namespace CensusAnalyser
 {
     using System;
 

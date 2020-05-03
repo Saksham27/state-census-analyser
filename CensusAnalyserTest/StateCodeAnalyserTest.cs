@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using CensusAnalyser;
 using NUnit.Framework;
-using StateCensusAnalyzer;
+
 
 namespace CensusAnalyserTest
 {
     [TestFixture]
     class StateCodeAnalyserTest
     {
+        static readonly string filePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
         /// <summary>
         /// creating object for StateCodeAnalyser
         /// </summary>
-        readonly StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser();
+        readonly StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(filePath);
         /// <summary>
         /// Setup method
         /// </summary>
@@ -21,9 +22,8 @@ namespace CensusAnalyserTest
         public void Setup()
         {
             // setting filePath property
-            stateCodeAnalyser.FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
             // setting NumberOfRecords property
-            stateCodeAnalyser.NumberOfRecords = 0;
+            stateCodeAnalyser.numberOfRecords = 0;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace CensusAnalyserTest
             // call read records method to load and read file
             stateCodeAnalyser.ReadRecords();
             // call numberof records method to get total records number
-            int records = stateCodeAnalyser.NumberOfRecords;
+            int records = stateCodeAnalyser.numberOfRecords;
             Assert.AreEqual(37, records);
         }//// end : public void TestNumberOfRecords()
 

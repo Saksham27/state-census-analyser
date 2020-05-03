@@ -4,21 +4,26 @@
     using System.Collections.Generic;
     using System.Text;
     using System.IO;
-    using LumenWorks.Framework.IO.Csv;
-    using StateCensusAnalyzer;
+    using CensusAnalyser;
 
     public class StateCodeAnalyser
     {
         // read only path variable
         public string FilePath { get; set; }
+
         // variable to count numberof variables
-        public int NumberOfRecords { get; set; }
+        public int numberOfRecords;
+
         // variable for delimeter character
-        char delimeter;
+        public char delimeter;
 
         // string array to store csv headers
-        readonly string[] headers = { "SrNo", "State", "Name", "TIN", "StateCode", "Column5" };
+        internal string[] headers;
 
+        public StateCodeAnalyser(string file)
+        {
+            FilePath = file;
+        }
         /// <summary>
         /// Method to read csv Records
         /// </summary>
@@ -35,28 +40,18 @@
                 {
                     throw new ExceptionWrongFile(StateCensusException.wrongFile, "file type is incorrect");
                 }
-                var records = new StreamReader(FilePath);
-                using (CsvReader csvRecords = new CsvReader(records))
+                CsvDataReader csvData = new CsvDataReader(FilePath);
+                numberOfRecords = csvData.NumberOfRecords;
+                delimeter = csvData.delimeter;
+                headers = csvData.headers;
+                // if delimeter of file is different raise Exception
+                if (!inputDelimeter.Equals(delimeter))
                 {
-
-                    // count number of records
-                    while (csvRecords.ReadNextRecord())
-                    {
-                        NumberOfRecords++;
-                    }
-                    // get delimeter 
-                    delimeter = csvRecords.Delimiter;
-                    // get header details
-                    string[] fileHeaders = csvRecords.GetFieldHeaders();
-                    // if delimeter of file is different raise Exception
-                    if (!inputDelimeter.Equals(delimeter))
-                    {
-                        throw new ExceptionWrongDelimeter(StateCensusException.wrongDelimeter, "File has Different Delimeter");
-                    }
-                    if (!IsHeaderSame(fileHeaders, inputHeaders))
-                    {
-                        throw new ExceptionInvalidHeaders(StateCensusException.invalidHeaders, "Headers of file are not valid");
-                    }
+                    throw new ExceptionWrongDelimeter(StateCensusException.wrongDelimeter, "File has Different Delimeter");
+                }
+                if (!CheckIfHeaderSame(headers, inputHeaders))
+                {
+                    throw new ExceptionInvalidHeaders(StateCensusException.invalidHeaders, "Headers of file are not valid");
                 }
             }
             catch (ExceptionWrongFile)
@@ -71,21 +66,12 @@
             {
                 throw new ExceptionInvalidHeaders(StateCensusException.invalidHeaders, "Headers of file are not valid");
             }
-            catch (FileNotFoundException)
-            {
-                throw new ExceptionFileNotFound(StateCensusException.fileNotFound, "Wrong file path or file missing");
-            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }//end:public void ReadRecords()
-        /// <summary>
-        /// Method to return total number of records in the given file
-        /// </summary>
-        /// <returns></returns>
  
-
         public dynamic Delimeter()
         {
             return delimeter;
@@ -97,7 +83,7 @@
         /// <param name="header1"></param>
         /// <param name="header2"></param>
         /// <returns>return true if both string are equal else return false</returns>
-        public bool IsHeaderSame(string[] header1, string[] header2)
+        public bool CheckIfHeaderSame(string[] header1, string[] header2)
         {
             // if length os the strings different return false
             if (header1.Length != header2.Length) return false;
