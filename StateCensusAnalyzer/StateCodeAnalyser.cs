@@ -9,7 +9,7 @@
     public class StateCodeAnalyser
     {
         // read only path variable
-        public string FilePath { get; set; }
+        public string filePath;
 
         // variable to count numberof variables
         public int numberOfRecords;
@@ -17,13 +17,11 @@
         // variable for delimeter character
         public char delimeter;
 
-        // string array to store csv headers
-        internal string[] headers;
-
-        public StateCodeAnalyser(string file)
+        public StateCodeAnalyser(string file = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv")
         {
-            FilePath = file;
+            filePath = file;
         }
+
         /// <summary>
         /// Method to read csv Records
         /// </summary>
@@ -31,47 +29,71 @@
         {
             try
             {
-                if (inputHeaders is null)
-                {
-                    inputHeaders = headers;
-                }
                 // if the given file is not csv file rise exception
-                if (!FilePath.EndsWith(".csv"))
+                if (!filePath.EndsWith(".csv"))
                 {
                     throw new ExceptionWrongFile(StateCensusException.wrongFile, "file type is incorrect");
                 }
-                CsvDataReader csvData = new CsvDataReader(FilePath);
-                numberOfRecords = csvData.NumberOfRecords;
-                delimeter = csvData.delimeter;
-                headers = csvData.headers;
+                CsvDataBuilder csvData = new CsvDataBuilder();
+                var records = csvData.ReadData(filePath);
+                try
+                {
+                    if (records.Equals("FileNotFound", StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new ExceptionFileNotFound(StateCensusException.fileNotFound, "File not found ");
+                    }
+                }
+                catch (ExceptionFileNotFound exception)
+                {
+                    Console.WriteLine(exception.Message);
+                    throw new ExceptionFileNotFound(StateCensusException.fileNotFound, exception.Message);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine($"Ignored {exception.Message} because result as we expected");
+                }
+                string[] header = records.Item1;
+                numberOfRecords = records.Item2;
+                delimeter = records.Item3;
                 // if delimeter of file is different raise Exception
                 if (!inputDelimeter.Equals(delimeter))
                 {
-                    throw new ExceptionWrongDelimeter(StateCensusException.wrongDelimeter, "File has Different Delimeter");
+                    throw new ExceptionWrongDelimeter(StateCensusException.wrongDelimeter, "File has different delimeter than given");
                 }
-                if (!CheckIfHeaderSame(headers, inputHeaders))
+                if (!CheckIfHeaderSame(inputHeaders, header) && inputHeaders != null)
                 {
                     throw new ExceptionInvalidHeaders(StateCensusException.invalidHeaders, "Headers of file are not valid");
                 }
             }
-            catch (ExceptionWrongFile)
+            catch (ExceptionFileNotFound exception)
             {
-                throw new ExceptionWrongFile(StateCensusException.wrongFile, "file type is incorrect");
+                throw new ExceptionFileNotFound(StateCensusException.fileNotFound, exception.Message);
             }
-            catch (ExceptionWrongDelimeter)
+            catch (ExceptionWrongFile exception)
             {
-                throw new ExceptionWrongDelimeter(StateCensusException.wrongDelimeter, "File has different delimeter than given");
+                throw new ExceptionWrongFile(StateCensusException.wrongFile, exception.Message);
             }
-            catch (ExceptionInvalidHeaders)
+            catch (ExceptionWrongDelimeter exception)
             {
-                throw new ExceptionInvalidHeaders(StateCensusException.invalidHeaders, "Headers of file are not valid");
+                throw new ExceptionWrongDelimeter(StateCensusException.wrongDelimeter, exception.Message);
             }
-            catch (Exception ex)
+            catch (ExceptionInvalidHeaders exception)
             {
-                Console.WriteLine(ex.Message);
+                throw new ExceptionInvalidHeaders(StateCensusException.invalidHeaders, exception.Message);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
             }
         }//end:public void ReadRecords()
- 
+
+        public int RecordsCount()
+        {
+            ReadRecords();
+            return numberOfRecords;
+        }//end:public int NumberOfRecords()
+
+
         public dynamic Delimeter()
         {
             return delimeter;
@@ -90,7 +112,7 @@
             // loop and check each and every value of 2 strings
             for (int i = 0; i < header1.Length; i++)
             {
-                if (header1[i].ToLower().CompareTo(header2[i].ToLower()) != 0) return false;
+                if (header1[i].Trim().ToLower().CompareTo(header2[i].ToLower()) != 0) return false;
             }
             return true;
         }

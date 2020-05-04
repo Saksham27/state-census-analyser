@@ -6,39 +6,47 @@ using LumenWorks.Framework.IO.Csv;
 
 namespace CensusAnalyser
 {
-    class CsvDataReader
+    public class CsvDataBuilder : ICsvBuilder
     {
-        // variables
-        internal int NumberOfRecords { get; set; }
-        private string FilePath { get; set; }
-        internal char delimeter;
-        internal string[] headers = null;
-
-        /// <summary>
-        /// constructor with file path as input to set file path 
-        /// </summary>
-        /// <param name="file"> path of file as string </param>
-        public CsvDataReader(string file)
-        {
-            FilePath = file;
-        }
-
         /// <summary>
         /// Method to read csv Records
         /// </summary>
-        public void ReadData()
+        public dynamic ReadData(string filePath)
         {
             try
             {
-                var records = new StreamReader(FilePath);
+                var records = new StreamReader(filePath);
                 using (CsvReader csvRecords = new CsvReader(records))
                 {
+                    int numberOfRecords = 0;
                     // count number of records
-                    while (csvRecords.ReadNextRecord()) NumberOfRecords++;
+                    while (csvRecords.ReadNextRecord())
+                    {
+                        numberOfRecords++;
+                    }
                     // get delimeter 
-                    delimeter = csvRecords.Delimiter;
+                    char delimeter = csvRecords.Delimiter;
                     // get header details
                     string[] headers = csvRecords.GetFieldHeaders();
+
+                    // declare a string array to store the records
+                    string[,] filedata = new string[numberOfRecords, csvRecords.FieldCount];
+                    // read the records into string array an index iterator
+                    int index = 0,
+                        fieldIterater = 0;
+                    while (csvRecords.ReadNextRecord())
+                    {
+                        string[] record = new string[csvRecords.FieldCount];
+                        csvRecords.CopyCurrentRecordTo(record);
+                        fieldIterater = 0;
+                        foreach (string value in record)
+                        {
+                            filedata[index, fieldIterater] = value;
+                            fieldIterater++;
+                        }
+                        index++;
+                    }
+                    return (headers, numberOfRecords, delimeter, filedata);
                 }
             }
             catch (FileNotFoundException)
@@ -48,6 +56,7 @@ namespace CensusAnalyser
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                throw new Exception(ex.Message);
             }
         }//end:public void ReadRecords()
     }
