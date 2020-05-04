@@ -29,24 +29,16 @@ namespace CensusAnalyser
                     // get header details
                     string[] headers = csvRecords.GetFieldHeaders();
 
-                    // declare a string array to store the records
-                    string[,] filedata = new string[numberOfRecords, csvRecords.FieldCount];
-                    // read the records into string array an index iterator
-                    int index = 0,
-                        fieldIterater = 0;
+                    // Declare a List to store the records 
+                    List<string[]> fileData = new List<string[]>();
+                    // read the records into List      
                     while (csvRecords.ReadNextRecord())
                     {
                         string[] record = new string[csvRecords.FieldCount];
                         csvRecords.CopyCurrentRecordTo(record);
-                        fieldIterater = 0;
-                        foreach (string value in record)
-                        {
-                            filedata[index, fieldIterater] = value;
-                            fieldIterater++;
-                        }
-                        index++;
+                        fileData.Add(record);
                     }
-                    return (headers, numberOfRecords, delimeter, filedata);
+                    return (headers, numberOfRecords, delimeter, fileData);
                 }
             }
             catch (IndexOutOfRangeException exception)
