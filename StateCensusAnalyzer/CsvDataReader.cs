@@ -49,6 +49,12 @@ namespace CensusAnalyser
                     return (headers, numberOfRecords, delimeter, filedata);
                 }
             }
+            catch (IndexOutOfRangeException exception)
+            {
+                Console.WriteLine(exception.Message);
+                return default;
+
+            }
             catch (FileNotFoundException)
             {
                 throw new ExceptionFileNotFound(StateCensusException.fileNotFound, "Wrong file path or file missing");
