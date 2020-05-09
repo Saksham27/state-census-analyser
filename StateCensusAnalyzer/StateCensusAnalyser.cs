@@ -10,18 +10,13 @@ namespace CensusAnalyser
     public class StateCensusAnalyser
     {
         // read only path variable
-        public string filePath;
+        public string FilePath { get; set; }
 
         // variable to count numberof variables
         public int numberOfRecords;
 
         // variable for delimeter character
         public char delimeter;
-
-        public StateCensusAnalyser(string file = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv")
-        {
-            filePath = file;
-        }
 
         /// <summary>
         /// Method to read csv Records
@@ -30,13 +25,15 @@ namespace CensusAnalyser
         {
             try
             {
+
                 // if the given file is not csv file rise exception
-                if (!filePath.EndsWith(".csv"))
+                if (!FilePath.EndsWith(".csv"))
                 {
                     throw new ExceptionWrongFile(StateCensusException.wrongFile, "file type is incorrect");
                 }
+
                 CsvDataBuilder csvData = new CsvDataBuilder();
-                var records = csvData.ReadData(filePath);
+                var records = csvData.ReadData(FilePath);
                 try
                 {
                     if (records.Equals("FileNotFound", StringComparison.OrdinalIgnoreCase))
@@ -54,8 +51,8 @@ namespace CensusAnalyser
                     Console.WriteLine($"Ignored {exception.Message} because result as we expected");
                 }
                 string[] header = records.Item1;
-                numberOfRecords = records.Item2;
-                delimeter = records.Item3;
+                this.numberOfRecords = records.Item2;
+                this.delimeter = records.Item3;
                 // if delimeter of file is different raise Exception
                 if (!inputDelimeter.Equals(delimeter))
                 {
