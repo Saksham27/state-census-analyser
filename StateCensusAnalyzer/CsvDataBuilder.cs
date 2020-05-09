@@ -113,6 +113,92 @@ namespace CensusAnalyser
             return sortedList;
         }//end:ArrayList SortList(ArrayList dataList,int sortingColoumnNum)
 
- 
+        /// <summary>Method to Read file data POCO concept </summary>
+        /// <param name="filePath"></param>
+        /// <param name="jsonForm">if its true return data in json form</param>
+        /// <param name="sorting">if its true return data in sorted order</param>
+        /// <param name="sortColoumnNum"> sort by menas of this column</param>
+        /// <returns></returns>
+        public dynamic ReadFileData(string filePath, string className, bool jsonForm = false, bool sorting = false, int sortColoumnNum = 1)
+        {
+
+            // since index of column is -1 of number of column
+            sortColoumnNum--;
+            try
+            {
+                var records = new StreamReader(filePath);
+                CsvReader csv_rocords = new CsvReader(records);
+                // variable
+                int numberOfRecords = 0;
+                // get delimeter 
+                char fileDelimeter = csv_rocords.Delimiter;
+                if (className == "StateCensusPrototype")
+                {
+                    List<StateCensusPrototype> census = new List<StateCensusPrototype>();
+                    // get header details
+                    census.Add(new StateCensusPrototype(csv_rocords.GetFieldHeaders()));
+
+                    while (csv_rocords.ReadNextRecord())
+                    {
+                        numberOfRecords++;
+                        string[] record = new string[csv_rocords.FieldCount];
+                        csv_rocords.CopyCurrentRecordTo(record);
+                        census.Add(new StateCensusPrototype(record));
+                    }
+                    // if sorting is true call SortList method
+                    if (sorting)
+                    {
+                        census = census.OrderBy(data => data[sortColoumnNum]).ToList();
+                    }
+                    if (jsonForm)
+                    {
+                        //Convert sorted data into 
+                        var dataInJson = JsonSerializer.Serialize(census);
+                        return (csv_rocords.GetFieldHeaders(), numberOfRecords, fileDelimeter, dataInJson);
+                    }
+                    return (csv_rocords.GetFieldHeaders(), numberOfRecords, fileDelimeter, census);
+                }
+
+                if (className == "StateCodePrototype")
+                {
+                    List<StateCodePrototype> census = new List<StateCodePrototype>();
+                    // get header details
+                    census.Add(new StateCodePrototype(csv_rocords.GetFieldHeaders()));
+
+                    while (csv_rocords.ReadNextRecord())
+                    {
+                        numberOfRecords++;
+                        string[] record = new string[csv_rocords.FieldCount];
+                        csv_rocords.CopyCurrentRecordTo(record);
+                        census.Add(new StateCodePrototype(record));
+                    }
+                    // if sorting is true call SortList method
+                    if (sorting)
+                    {
+                        census = census.OrderBy(data => data[sortColoumnNum]).ToList();
+                    }
+                    if (jsonForm)
+                    {
+                        //Convert sorted data into 
+                        var dataInJson = JsonSerializer.Serialize(census);
+                        return (csv_rocords.GetFieldHeaders(), numberOfRecords, fileDelimeter, dataInJson);
+                    }
+                    return (csv_rocords.GetFieldHeaders(), numberOfRecords, fileDelimeter, census);
+                }
+                return default;
+
+            }
+            catch (FileNotFoundException fileNotFound)
+            {
+                Console.WriteLine(fileNotFound.Message);
+                return "FileNotFound";
+            }
+            catch (Exception excep)
+            {
+                Console.WriteLine(excep.Message);
+                return default;
+            }
+        }//end: public dynamic ReadFileData(string filePath, bool jsonForm = false, bool sorting = false, int sortColoumnNum = 1)
+
     }
 }
