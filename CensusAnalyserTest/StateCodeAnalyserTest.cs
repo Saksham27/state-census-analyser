@@ -10,20 +10,17 @@ namespace CensusAnalyserTest
     [TestFixture]
     class StateCodeAnalyserTest
     {
-        static readonly string filePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
         /// <summary>
         /// creating object for StateCodeAnalyser
         /// </summary>
-        readonly StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser(filePath);
+        readonly StateCensusAnalyser stateCodeAnalyser = new StateCensusAnalyser();
         /// <summary>
         /// Setup method
         /// </summary>
         [SetUp]
         public void Setup()
         {
-            // setting filePath property
-            // setting NumberOfRecords property
-            stateCodeAnalyser.numberOfRecords = 0;
+            stateCodeAnalyser.FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
         }
 
         /// <summary>
@@ -32,11 +29,18 @@ namespace CensusAnalyserTest
         [Test]
         public void TestNumberOfRecords()
         {
-            // call read records method to load and read file
-            stateCodeAnalyser.ReadRecords();
-            // call numberof records method to get total records number
-            int records = stateCodeAnalyser.numberOfRecords;
-            Assert.AreEqual(37, records);
+            try
+            {
+                // call read records method to load and read file
+                stateCodeAnalyser.ReadRecords();
+                // call numberof records method to get total records number
+                int records = stateCodeAnalyser.numberOfRecords;
+                Assert.AreEqual(37, records);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }//// end : public void TestNumberOfRecords()
 
         /// <summary>
@@ -45,10 +49,17 @@ namespace CensusAnalyserTest
         [Test]
         public void GivenCsvFilePAth_WhenImproper_ShouldThrowException()
         {
-            string expected = "Wrong file path or file missing";
-            stateCodeAnalyser.FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateData.csv";
-            ExceptionFileNotFound actual = Assert.Throws<ExceptionFileNotFound>(() => stateCodeAnalyser.ReadRecords());
-            Assert.AreEqual(expected, actual.Message);
+            try
+            {
+                string expected = "Wrong file path or file missing";
+                stateCodeAnalyser.FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateData.csv";
+                ExceptionFileNotFound actual = Assert.Throws<ExceptionFileNotFound>(() => stateCodeAnalyser.ReadRecords());
+                Assert.AreEqual(expected, actual.Message);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
 
         /// <summary>
@@ -57,10 +68,17 @@ namespace CensusAnalyserTest
         [Test]
         public void GivenCsvFilePath_WhenTypeImproper_ShouldThrowException()
         {
-            string expected = "file type is incorrect";
-            stateCodeAnalyser.FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.txt";
-            ExceptionWrongFile actual = Assert.Throws<ExceptionWrongFile>(() => stateCodeAnalyser.ReadRecords());
-            Assert.AreEqual(expected, actual.Message);
+            try
+            {
+                string expected = "file type is incorrect";
+                stateCodeAnalyser.FilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.txt";
+                ExceptionWrongFile actual = Assert.Throws<ExceptionWrongFile>(() => stateCodeAnalyser.ReadRecords());
+                Assert.AreEqual(expected, actual.Message);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
 
         /// <summary>
@@ -69,9 +87,16 @@ namespace CensusAnalyserTest
         [Test]
         public void GivenCsvFilePath_WhenTypeDelimeterImproper_ShouldThrowException()
         {
-            string expected = "File has different delimeter than given";
-            ExceptionWrongDelimeter actual = Assert.Throws<ExceptionWrongDelimeter>(() => stateCodeAnalyser.ReadRecords(null, '.'));
-            Assert.AreEqual(expected, actual.Message);
+            try
+            {
+                string expected = "File has different delimeter than given";
+                ExceptionWrongDelimeter actual = Assert.Throws<ExceptionWrongDelimeter>(() => stateCodeAnalyser.ReadRecords(null, '.'));
+                Assert.AreEqual(expected, actual.Message);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
 
         /// <summary>

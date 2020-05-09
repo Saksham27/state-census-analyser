@@ -1,25 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 
 namespace CensusAnalyser
 {
-    /// <summary> Class Structure </summary>
-    /// <InhetitedClass>CsvDataBuilder</InhetitedClass>
-    /// <Constructors> Default constructor only</Constructors>
-    /// <InheritedMethods>
-    /// 1.public dynamic ReadData(string filePath,bool sorting=false,int sortColoumnNum=1) : 
-    ///     -> returns a tuple(string[],int,char,ArrayList/JSON):(fileHeader,numberOfRecords,fileDelimeter,fileData)
-    /// </InheritedMethods>
-    /// <classMethods>
-    /// 1.public dynamic DataInJsonForm(string filePath)
-    /// 2.public dynamic DataInArrayListForm(string filePath) 
-    /// 3.public dynamic GetHeader(string filePath) 
-    /// 4.public dynamic GetDelimeter(string filePath)   
-    /// 5.public int getNumberofRecords(string filePath)  
-    /// 6.public bool CheckHeaders(string filePath, dynamic inputHeader)
-    /// 7.public void ShowRecords(string filePath)
-    /// </classMethods>
+    /// <summary>
+    /// csv data factory
+    /// </summary>
     public class CsvDataFactory : CsvDataBuilder
     {
         /// <summary>1)Method to Read data from file </summary>
@@ -100,6 +88,38 @@ namespace CensusAnalyser
                 }
                 Console.WriteLine();
             }
+        }
+
+        public dynamic SortBySecondaryList(string firstFilePath1, int dependentColNumFile1, string secondFilePath, int dependentColNumFile2, int secondFileSortColNum = 0)
+        {
+             // decrease column number by 1 convert to index
+             dependentColNumFile1--;
+            dependentColNumFile2--;
+            // if column number < 0  => initialize to 0
+            if (dependentColNumFile1 < 0) dependentColNumFile1 = 0;
+            if (dependentColNumFile2 < 0) dependentColNumFile2 = 0;
+            // get data in List form
+            var result1 = ReadFileData(firstFilePath1, "StateCensusPrototype");
+            var result2 = ReadFileData(secondFilePath, "StateCodeModelClass", false, true, secondFileSortColNum);
+            List<StateCensusPrototype> list1 = result1.Item4;
+            List<StateCodePrototype> list2 = result2.Item4;
+            // sort the first file list by using second file list   
+            List<StateCensusPrototype> sortedList = new List<StateCensusPrototype>();
+            sortedList.Add(new StateCensusPrototype(result1.Item1));
+            foreach (dynamic list2Emlement in list2)
+            {
+                foreach (dynamic list1Element in list1)
+                {
+                    if (list1Element[dependentColNumFile1].CompareTo(list2Emlement[dependentColNumFile2]) == 0)
+                    {
+                        sortedList.Add(list1Element);
+                        break;
+                    }
+                }
+            }
+            //Convert sorted data into 
+            var sortedListInJson = JsonSerializer.Serialize(sortedList);
+            return sortedListInJson;
         }
     }//end:class CsvDataFactory
 }

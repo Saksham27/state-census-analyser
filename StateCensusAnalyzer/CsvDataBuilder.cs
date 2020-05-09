@@ -6,15 +6,26 @@ using System.Text.Json;
 using System.Text;
 using LumenWorks.Framework.IO.Csv;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CensusAnalyser
 {
 
     public class CsvDataBuilder : ICsvBuilder
     {
+        // read only path variable
+        public string filePath;
+
+        // variable to count numberof variables
+        public int numberOfRecords;
+
+        // variable for delimeter character
+        public char delimeter;
+
         /// <summary>
         /// Method to read csv Records
         /// </summary>
+
         public dynamic ReadData(string filePath, bool json = false, bool sort = false, int sortColumn = 1)
         {
             // since index of column is -1 of number of column
@@ -72,13 +83,14 @@ namespace CensusAnalyser
         /// <param name="dataList">ArrayList with data in form of string[]</param>
         /// <param name="sortingColoumnNum"></param>
         /// <returns>sorted ArrayList</returns>
+
         ArrayList SortData(ArrayList dataList, int sortingColoumnNum = 0)
         {
             int index = 0;
             ArrayList sortedList = new ArrayList();
             sortedList.Add(dataList[0]);
             int count = dataList.Count;
-            //sort the list by using bobble sort
+            //sort the list by using bubble sort
             while (count > 0)
             {
                 dynamic record1 = dataList[0];
@@ -89,7 +101,7 @@ namespace CensusAnalyser
                     string value2 = String.Copy(record2[sortingColoumnNum]);
                     if (value1.CompareTo(value2) > 0)
                     {
-                        value1 = String.Copy(value2);
+                        value1 = value2;
                         index = j;
                     }
                 }
@@ -100,5 +112,7 @@ namespace CensusAnalyser
             }
             return sortedList;
         }//end:ArrayList SortList(ArrayList dataList,int sortingColoumnNum)
+
+ 
     }
 }
