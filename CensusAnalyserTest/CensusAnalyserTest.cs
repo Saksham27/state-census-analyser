@@ -214,18 +214,60 @@ namespace CensusAnalyserTest
         public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostPopulousToLeast_ReturnTheNumberOfSatetesSorted()
         {
             string expected = "199812341";
-            string mostPopulation = JSONCensus.ReturnDataNumberOfStatesSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "Population");
+            string mostPopulation = JSONCensus.ReturnDataNumberOfStatesHighestSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "Population");
             Assert.AreEqual(expected, mostPopulation);
         }
 
         /// <Test 16>
-        /// Test for StateCensuscsv and json path to add into json after sorting return most DensityPerSqKm.
+        /// Test for StateCensuscsv and json path to add into json after sorting return most Population
         /// </Test 16>
+        [Test]
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostLeastToPopulous_ReturnTheNumberOfSatetesSorted()
+        {
+            string expected = "607688";
+            string mostPopulation = JSONCensus.ReturnDataNumberOfStatesSortLowestCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "Population");
+            Assert.AreEqual(expected, mostPopulation);
+        }
+
+        /// <Test 17>
+        /// Test for StateCensuscsv and json path to add into json after sorting return most DensityPerSqKm.
+        /// </Test 17>
         [Test]
         public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostDensityPerKmLeast_ReturnDensityPerSqKm()
         {
             string expected = "1102";
-            string mostDensityPerKm = JSONCensus.ReturnDataNumberOfStatesSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "DensityPerSqKm");
+            string mostDensityPerKm = JSONCensus.ReturnDataNumberOfStatesHighestSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "DensityPerSqKm");
+            Assert.AreEqual(expected, mostDensityPerKm);
+        }
+
+        /// <Test 18>
+        /// Test for StateCensuscsv and json path to add into json after sorting return least DensityPerSqKm.
+        /// </Test 18>
+        [Test]
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromLeastDensityPerKmMost_ReturnDensityPerSqKm()
+        {
+            string expected = "52";
+            string mostDensityPerKm = JSONCensus.ReturnDataNumberOfStatesSortLowestCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "DensityPerSqKm");
+            Assert.AreEqual(expected, mostDensityPerKm);
+        }
+        /// <Test 19>
+        /// Test for StateCensuscsv and json path to add into json after sorting return most AreaInSqKm.
+        /// </Test 19>
+        [Test]
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostAreaInSqKmToLeast_ReturnAreaInSqKmv()
+        {
+            string expected = "342239";
+            string mostDensityPerKm = JSONCensus.ReturnDataNumberOfStatesHighestSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "AreaInSqKm");
+            Assert.AreEqual(expected, mostDensityPerKm);
+        }
+        /// <Test 20>
+        /// Test for StateCensuscsv and json path to add into json after sorting return least AreaInSqKm.
+        /// </Test 20>
+        [Test]
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromLeastAreaInSqKmToMost_ReturnAreaInSqKmv()
+        {
+            string expected = "3242";
+            string mostDensityPerKm = JSONCensus.ReturnDataNumberOfStatesSortLowestCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "AreaInSqKm");
             Assert.AreEqual(expected, mostDensityPerKm);
         }
     } ////end : public class StateCensusAnalyserTest

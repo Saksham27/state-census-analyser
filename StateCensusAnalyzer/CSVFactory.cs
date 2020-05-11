@@ -8,7 +8,12 @@ namespace CensusAnalyser
 {
     public class CSVFactory
     {
-        // Method to creating instance of StateCensusAnalyser
+        /// <summary>
+        /// Method to creating instance of StateCensusAnalyser
+        /// Delegate is referance type variable that holds thr referance to the method.
+        /// </summary>
+        /// <returns></returns>
+
         public static CsvStateCensusDataDao DelegateOfStateCensusAnalyser()
         {
             StateCensusAnalyserDao csvStateCensus = InstanceOfStateCensusAnalyser();
