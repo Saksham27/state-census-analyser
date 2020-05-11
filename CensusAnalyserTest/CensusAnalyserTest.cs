@@ -3,8 +3,8 @@ namespace CensusAnalyserTest
     using System;
     using CensusAnalyser;
     using NUnit.Framework;
-    using static CensusAnalyser.StateCensusAnalyser;
-    using static CensusAnalyser.CSVStates;
+    using static CensusAnalyser.StateCensusAnalyserDao;
+    using static CensusAnalyser.CSVStatesDao;
 
 
 
@@ -15,11 +15,25 @@ namespace CensusAnalyserTest
     {
         //with NameSpace Assembly reference 
         // DeligateMethod -------Object-------Reference to delegate method
-        readonly CsvStateCensusData stateCensus = CSVFactory.DelegateOfStateCensusAnalyser();
-        readonly CsvStateCodeData stateCode = CSVFactory.DelegateOfCsvStates();
+        readonly CsvStateCensusDataDao stateCensus = CSVFactory.DelegateOfStateCensusAnalyser();
+        readonly CsvStateCodeDataDao stateCode = CSVFactory.DelegateOfCsvStates();
 
         public string stateCensusDataPath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
+        public string stateCensusDataPathIncorrectName = @"C:\Users\Admin\source\repos\CensusAnalyserProblem\CensusAnalyserProblem\StateCensusDataIncorrect.csv";
+        public string stateCensusDataPathIncorrectExtension = @"C:\Users\Admin\source\repos\CensusAnalyserProblem\CensusAnalyserProblem\StateCensusData.txt";
+        public string[] headerStateCensus = { "State", "Population", "AreaInSqKm", "DensityPerSqKm" };
+        public string[] headerStateCensusInvalid = { "State", "InvalidHeader", "AreaInSqKm", "DensityPerSqKm" };
+
         public string stateCodePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
+        public string stateCodePathIncorrectName = @"C:\Users\Admin\source\repos\CensusAnalyserProblem\CensusAnalyserProblem\StateCodeIncorrect.csv";
+        public string stateCodePathIncorrectExtension = @"C:\Users\Admin\source\repos\CensusAnalyserProblem\CensusAnalyserProblem\StateCode.txt";
+        public string[] headerStateCode = { "SrNo", "State", "TIN", "StateCode" };
+        public string[] headerStateCodeInvalid = { "SrNo", "StateInvalid", "PIN", "StateCode" };
+
+        // Correct and Incorrect Delimeter
+        char delimeter = ',';
+        char IncorrectDelimeter = ';';
+
         public string jsonPathstateCensus = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.json";
         public string jsonPathstateCode = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.json";
         [SetUp]
@@ -36,10 +50,7 @@ namespace CensusAnalyserTest
         [Test]
         public void CheckNumberOfRecordsMatches()
         {
-            char delimeter = ',';
-            string[] header = { "State", "Population", "AreaInSqKm", "DensityPerSqKm" };
-            string path = stateCensusDataPath;
-            var numberOfRecords = stateCensus(header, delimeter, path);
+            var numberOfRecords = stateCensus(headerStateCensus, delimeter, stateCensusDataPath);
             Assert.AreEqual(29, numberOfRecords);
         }
 
@@ -51,10 +62,7 @@ namespace CensusAnalyserTest
         [Test]
         public void CheckIncorrectCSVFile()
         {
-            string incorrectPath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusDataIncorrect.csv";
-            char delimeter = ',';
-            string[] header = { "State", "Population", "AreaInSqKm", "DensityPerSqKm" };
-            object exceptionMessage = stateCensus(header, delimeter, incorrectPath);
+            object exceptionMessage = stateCensus(headerStateCensus, delimeter, stateCensusDataPathIncorrectName);
             Assert.AreEqual("Invalid file", exceptionMessage);
         }
 
@@ -66,10 +74,7 @@ namespace CensusAnalyserTest
         [Test]
         public void CheckCorrectDotExtensionFile()
         {
-            char delimeter = ',';
-            string[] header = { "State", "Population", "AreaInSqKm", "DensityPerSqKm" };
-            string inCorrectExtensionPath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.txt";
-            object exceptionMessage = stateCensus(header, delimeter, inCorrectExtensionPath);
+            object exceptionMessage = stateCensus(headerStateCensus, delimeter, stateCensusDataPathIncorrectExtension);
             Assert.AreEqual("Invalid Extension of file", exceptionMessage);
         }
 
@@ -81,9 +86,7 @@ namespace CensusAnalyserTest
         [Test]
         public void CheckInCorrectDelimeter()
         {
-            char userDelimeter = ';';
-            string path = stateCensusDataPath;
-            object exceptionMessage = stateCensus(null, userDelimeter, path);
+            object exceptionMessage = stateCensus(headerStateCensus, IncorrectDelimeter, stateCensusDataPath);
             Assert.AreEqual("Incorrect Delimeter", exceptionMessage);
         }
 
@@ -95,10 +98,7 @@ namespace CensusAnalyserTest
         [Test]
         public void CheckInvalidHeader()
         {
-            string[] header = { "State", "InvalidHeader", "AreaInSqKm", "DensityPerSqKm" };
-            char userDelimeter = ',';
-            string path = stateCensusDataPath;
-            object exceptionMessage = stateCensus(header, userDelimeter, path);
+            object exceptionMessage = stateCensus(headerStateCensusInvalid, delimeter, stateCensusDataPath);
             Assert.AreEqual("Invalid Header", exceptionMessage);
         }
 
@@ -112,10 +112,7 @@ namespace CensusAnalyserTest
         [Test]
         public void CheckNumberOfRecordsMatchesStateCode()
         {
-            char delimeter = ',';
-            string[] header = { "SrNo", "State", "TIN", "StateCode" };
-            string path = stateCodePath;
-            var numberOfRecords = stateCode(header, delimeter, path);
+            var numberOfRecords = stateCode(headerStateCode, delimeter, stateCodePath);
             Assert.AreEqual(37, numberOfRecords);
         }
 
@@ -127,10 +124,7 @@ namespace CensusAnalyserTest
         [Test]
         public void CheckIncorrectCSVFileStateCode()
         {
-            char delimeter = ',';
-            string[] header = { "SrNo", "State", "PIN", "StateCode" };
-            string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCodeIncorrect.csv";
-            object exceptionMessage = stateCode(header, delimeter, path);
+            object exceptionMessage = stateCode(headerStateCode, delimeter, stateCodePathIncorrectName);
             Assert.AreEqual("Invalid file", exceptionMessage);
         }
 
@@ -142,10 +136,7 @@ namespace CensusAnalyserTest
         [Test]
         public void CheckCorrectDotExtensionFileStateCode()
         {
-            char delimeter = ',';
-            string[] header = { "SrNo", "State", "PIN", "StateCode" };
-            string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.txt";
-            object exceptionMessage = stateCode(header, delimeter, path);
+            object exceptionMessage = stateCode(headerStateCode, delimeter, stateCodePathIncorrectExtension);
             Assert.AreEqual("Invalid Extension of file", exceptionMessage);
         }
 
@@ -157,10 +148,7 @@ namespace CensusAnalyserTest
         [Test]
         public void CheckInCorrectDelimeterStateCode()
         {
-            char delimeter = ';';
-            string[] header = { "SrNo", "State", "PIN", "StateCode" };
-            string path = stateCodePath;
-            object exceptionMessage = stateCode(header, delimeter, path);
+            object exceptionMessage = stateCode(headerStateCode, IncorrectDelimeter, stateCodePath);
             Assert.AreEqual("Incorrect Delimeter", exceptionMessage);
         }
 
@@ -172,10 +160,7 @@ namespace CensusAnalyserTest
         [Test]
         public void CheckInvalidHeaderStateCode()
         {
-            char delimeter = ',';
-            string[] header = { "SrNo", "InvalidState", "PIN", "StateCode" };
-            string path = stateCodePath;
-            object exceptionMessage = stateCode(header, delimeter, path);
+            object exceptionMessage = stateCode(headerStateCodeInvalid, delimeter, stateCodePath);
             Assert.AreEqual("Invalid Header", exceptionMessage);
         }
 

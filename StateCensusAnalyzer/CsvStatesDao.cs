@@ -2,7 +2,7 @@
 
 namespace CensusAnalyser
 {
-    public class CSVStates : ICSVBuilder
+    public class CSVStatesDao : ICSVBuilder
     {
         public static string stateCodePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
         // variables declaration
@@ -11,12 +11,12 @@ namespace CensusAnalyser
         readonly string givenPath;
 
         // Default Constructor
-        public CSVStates()
+        public CSVStatesDao()
         {
         }
 
         // CsvStates parameterised constructor
-        public CSVStates(string[] header, char delimeter, string givenPath)
+        public CSVStatesDao(string[] header, char delimeter, string givenPath)
         {
             this.header = header;
             this.delimeter = delimeter;
@@ -24,7 +24,7 @@ namespace CensusAnalyser
         }
 
         // Delegate is a reference type variable that hold the refenence to a method
-        public delegate object CsvStateCodeData(string[] header, char delimeter, string givenPath);
+        public delegate object CsvStateCodeDataDao(string[] header, char delimeter, string givenPath);
 
         /// <CsvStateCodeReadRecord>
         /// Creating object of class 'StateCensusAnalyser' as 'stateCodePathObject,
@@ -38,12 +38,12 @@ namespace CensusAnalyser
             return returnObject;
         }
 
-        private static CSVStates InstanceOfCsvStates()
+        private static CSVStatesDao InstanceOfCsvStates()
         {
             throw new NotImplementedException();
         }
 
-        private static StateCensusAnalyser InstanceOfStateCensusAnalyser()
+        private static StateCensusAnalyserDao InstanceOfStateCensusAnalyser()
         {
             throw new NotImplementedException();
         }

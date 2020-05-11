@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace CensusAnalyser
 { 
-    public class StateCensusAnalyser : ICSVBuilder
+    public class StateCensusAnalyserDao : ICSVBuilder
     {
         public static string stateCensusPath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
         // variables declaration
@@ -20,12 +20,12 @@ namespace CensusAnalyser
         //end: static void Main(string[] args)
 
         // Default Constructor
-        public StateCensusAnalyser()
+        public StateCensusAnalyserDao()
         {
         }
 
-        // CsvStates parameterised constructor
-        public StateCensusAnalyser(string[] header, char delimeter, string givenPath)
+        // CsvStates parameterised constructor  
+        public StateCensusAnalyserDao(string[] header, char delimeter, string givenPath)
         {
             this.header = header;
             this.delimeter = delimeter;
@@ -33,7 +33,7 @@ namespace CensusAnalyser
         }
 
         // Delegate is a reference type variable that hold the refenence to a method
-        public delegate object CsvStateCensusData(string[] header, char delimeter, string givenPath);
+        public delegate object CsvStateCensusDataDao(string[] header, char delimeter, string givenPath);
 
         /// <CsvStateCodeReadRecord>
         /// Creating object of class 'CensusReadRecord' as 'stateCodePathObject,
