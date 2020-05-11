@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using static CensusAnalyser.CSVStatesDao;
 using static CensusAnalyser.StateCensusAnalyserDao;
+using static CensusAnalyser.USCensusDataDao;
 
 namespace CensusAnalyser
 {
@@ -31,16 +32,16 @@ namespace CensusAnalyser
         }
 
         // Method to creating instance of USCensusData
-        public static CsvUSCensusData DelegateOfUSCensusData()
+        public static CsvUSCensusDataDao DelegateOfUSCensusData()
         {
             USCensusDataDao csvUSData = InstanceOfUSCensusData();
-            CsvUSCensusData getUSData = new CsvUSCensusData(USCensusDataDao.CsvUSCensusDataReadRecord);
+            CsvUSCensusDataDao getUSData = new CsvUSCensusDataDao(USCensusDataDao.CsvUSCensusDataReadRecord);
             return getUSData;
-        }
+        }   
 
         private static USCensusDataDao InstanceOfUSCensusData()
         {
-            throw new NotImplementedException();
+            return new USCensusDataDao();
         }
 
         private static CSVStatesDao InstanceOfCsvStates()

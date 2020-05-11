@@ -13,9 +13,10 @@ namespace CensusAnalyser
     {
         public static string stateCensusPath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
         // variables declaration
-        string[] header;
-        char delimeter;
-        string givenPath;
+        public string stateCensusFilePath;
+        public char delimeter;
+        public string[] header;
+        public string givenPath;
 
         //end: static void Main(string[] args)
 
@@ -53,6 +54,11 @@ namespace CensusAnalyser
         }
 
         object ICSVBuilder.CsvStateCodeReadRecord(string[] header, char delimeter, string givenPath)
+        {
+            throw new NotImplementedException();
+        }
+
+        object ICSVBuilder.CsvUSCensusDataReadRecord(string[] header, char delimeter, string givenPath)
         {
             throw new NotImplementedException();
         }

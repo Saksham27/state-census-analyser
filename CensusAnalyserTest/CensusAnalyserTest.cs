@@ -5,6 +5,7 @@ namespace CensusAnalyserTest
     using NUnit.Framework;
     using static CensusAnalyser.StateCensusAnalyserDao;
     using static CensusAnalyser.CSVStatesDao;
+    using static CensusAnalyser.USCensusDataDao;
 
 
 
@@ -17,21 +18,22 @@ namespace CensusAnalyserTest
         // DeligateMethod -------Object-------Reference to delegate method
         readonly CsvStateCensusDataDao stateCensus = CSVFactory.DelegateOfStateCensusAnalyser();
         readonly CsvStateCodeDataDao stateCode = CSVFactory.DelegateOfCsvStates();
+        readonly CsvUSCensusDataDao USCensus = CSVFactory.DelegateOfUSCensusData();
 
         public string stateCensusDataPath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
-        public string stateCensusDataPathIncorrectName = @"C:\Users\Admin\source\repos\CensusAnalyserProblem\CensusAnalyserProblem\StateCensusDataIncorrect.csv";
-        public string stateCensusDataPathIncorrectExtension = @"C:\Users\Admin\source\repos\CensusAnalyserProblem\CensusAnalyserProblem\StateCensusData.txt";
+        public string stateCensusDataPathIncorrectName = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusDataIncorrect.csv";
+        public string stateCensusDataPathIncorrectExtension = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.txt";
         public string[] headerStateCensus = { "State", "Population", "AreaInSqKm", "DensityPerSqKm" };
         public string[] headerStateCensusInvalid = { "State", "InvalidHeader", "AreaInSqKm", "DensityPerSqKm" };
 
         public string stateCodePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
-        public string stateCodePathIncorrectName = @"C:\Users\Admin\source\repos\CensusAnalyserProblem\CensusAnalyserProblem\StateCodeIncorrect.csv";
-        public string stateCodePathIncorrectExtension = @"C:\Users\Admin\source\repos\CensusAnalyserProblem\CensusAnalyserProblem\StateCode.txt";
+        public string stateCodePathIncorrectName = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCodeIncorrect.csv";
+        public string stateCodePathIncorrectExtension = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.txt";
         public string[] headerStateCode = { "SrNo", "State", "TIN", "StateCode" };
         public string[] headerStateCodeInvalid = { "SrNo", "StateInvalid", "PIN", "StateCode" };
 
         // FilePath and Headers of USCensusData
-        public string USDataPath = @"C:\Users\Admin\source\repos\CensusAnalyserProblem\CensusAnalyserProblem\USCensusData.csv";
+        public string USDataPath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\USCensusData.csv";
         public string[] headerUSData = { "State Id", "State", "Population", "Housing units", "Total area", "Water area", "Land area", "Population Density", "Housing Density" };
 
         // Correct and Incorrect Delimeter
@@ -40,6 +42,8 @@ namespace CensusAnalyserTest
 
         public string jsonPathstateCensus = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.json";
         public string jsonPathstateCode = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.json";
+        public string jsonPathUSData = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\USDataJSON.json";
+
         [SetUp]
         public void Setup()
         {
@@ -215,7 +219,7 @@ namespace CensusAnalyserTest
         /// Test for StateCensuscsv and json path to add into json after sorting return most Population.
         /// </Test 15>
         [Test]
-        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostPopulousToLeast_ReturnTheNumberOfSatetesSorted()
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostPopulousToLeast_ReturnMostPopulation()
         {
             string expected = "199812341";
             string mostPopulation = JSONCensus.ReturnDataNumberOfStatesHighestSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "Population");
@@ -226,18 +230,18 @@ namespace CensusAnalyserTest
         /// Test for StateCensuscsv and json path to add into json after sorting return most Population
         /// </Test 16>
         [Test]
-        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostLeastToPopulous_ReturnTheNumberOfSatetesSorted()
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromLeastToPopulousToMost_ReturnLeastPopulation()
         {
             string expected = "607688";
-            string mostPopulation = JSONCensus.ReturnDataNumberOfStatesSortLowestCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "Population");
-            Assert.AreEqual(expected, mostPopulation);
+            string leastPopulation = JSONCensus.ReturnDataNumberOfStatesSortLowestCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "Population");
+            Assert.AreEqual(expected, leastPopulation);
         }
 
         /// <Test 17>
         /// Test for StateCensuscsv and json path to add into json after sorting return most DensityPerSqKm.
         /// </Test 17>
         [Test]
-        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostDensityPerKmLeast_ReturnDensityPerSqKm()
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostDensityPerKmLeast_ReturnMostDensityPerSqKm()
         {
             string expected = "1102";
             string mostDensityPerKm = JSONCensus.ReturnDataNumberOfStatesHighestSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "DensityPerSqKm");
@@ -248,7 +252,7 @@ namespace CensusAnalyserTest
         /// Test for StateCensuscsv and json path to add into json after sorting return least DensityPerSqKm.
         /// </Test 18>
         [Test]
-        public void CheckStateCensusDataAndAddToJsonPathAndSortFromLeastDensityPerKmMost_ReturnDensityPerSqKm()
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromLeastDensityPerKmMost_ReturnLeastDensityPerSqKm()
         {
             string expected = "52";
             string mostDensityPerKm = JSONCensus.ReturnDataNumberOfStatesSortLowestCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "DensityPerSqKm");
@@ -258,7 +262,7 @@ namespace CensusAnalyserTest
         /// Test for StateCensuscsv and json path to add into json after sorting return most AreaInSqKm.
         /// </Test 19>
         [Test]
-        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostAreaInSqKmToLeast_ReturnAreaInSqKmv()
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostAreaInSqKmToLeast_ReturnMostAreaInSqKmv()
         {
             string expected = "342239";
             string mostDensityPerKm = JSONCensus.ReturnDataNumberOfStatesHighestSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "AreaInSqKm");
@@ -268,11 +272,67 @@ namespace CensusAnalyserTest
         /// Test for StateCensuscsv and json path to add into json after sorting return least AreaInSqKm.
         /// </Test 20>
         [Test]
-        public void CheckStateCensusDataAndAddToJsonPathAndSortFromLeastAreaInSqKmToMost_ReturnAreaInSqKmv()
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromLeastAreaInSqKmToMost_ReturnLeastAreaInSqKmv()
         {
             string expected = "3242";
             string mostDensityPerKm = JSONCensus.ReturnDataNumberOfStatesSortLowestCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "AreaInSqKm");
             Assert.AreEqual(expected, mostDensityPerKm);
+        }
+
+        /// <Test 21>
+        /// Checking number of records of US census data
+        /// </Test 21>
+        [Test]
+        public void CheckUSCensusDataNumberOFRecords()
+        {
+            var returnRecords = USCensus(headerUSData, delimeter, USDataPath);
+            Assert.AreEqual(51, returnRecords);
+        }
+
+        /// <Test 22>
+        /// Converting CSv file to JSON  and sorting it 
+        /// and returning most populus number.
+        /// </Test 22>
+        [Test]
+        public void GivenCsvUSCensusAndJson_ToSortFromMostPopulousToLeast_ReturnMostPolulation()
+        {
+            string expected = "37253956";
+            string mostPopulus = JSONCensus.ReturnDataNumberOfStatesHighestSortCSVFileAndWriteInJson(USDataPath, jsonPathUSData, "Population");
+            Assert.AreEqual(expected, mostPopulus);
+        }
+
+        /// <Test 23>
+        /// Converting CSv file to JSON  and sorting it 
+        /// and returning least populus number.
+        /// </Test 23>
+        [Test]
+        public void GivenCsvUSCensusAndJson_ToSortFromLeastPopulousToMost_ReturnLeastPopulation()
+        {
+            string expected = "563626";
+            string leastPopulation = JSONCensus.ReturnDataNumberOfStatesSortLowestCSVFileAndWriteInJson(USDataPath, jsonPathUSData, "Population");
+            Assert.AreEqual(expected, leastPopulation);
+        }
+
+        /// <Test 24>
+        ///  Test for USCensuscsv and json path to add into json after sorting return return first state.
+        /// </Test 24>
+        [Test]
+        public void CheckUSCensusDataAndAddToJsonPathAndSorting_ReturnFirstState()
+        {
+            string expected = "Alabama";
+            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnFirstData(USDataPath, jsonPathUSData, "State");
+            Assert.AreEqual(expected, lastValue);
+        }
+
+        /// <Test 25>
+        ///  Test for USCensuscsv and json path to add into json after sorting return return last state.
+        /// </Test 25>
+        [Test]
+        public void CheckUSCensusDataAndAddToJsonPathAndSorting_ReturnLastState()
+        {
+            string expected = "Wyoming";
+            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnLastData(USDataPath, jsonPathUSData, "State");
+            Assert.AreEqual(expected, lastValue);
         }
     } ////end : public class StateCensusAnalyserTest
 } ////end : namespace CensusAnalyserTest
