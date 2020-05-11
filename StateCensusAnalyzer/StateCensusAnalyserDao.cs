@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace CensusAnalyser
 { 
-    public class StateCensusAnalyserDao : ICSVBuilder
+    public class StateCensusAnalyserDao : ICsvBuilder
     {
         public static string stateCensusPath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
         // variables declaration
@@ -47,12 +47,12 @@ namespace CensusAnalyser
             return returnObject;
         }
 
-        object ICSVBuilder.CsvStateCensusReadRecord(string[] header, char delimeter, string givenPath)
+        object ICsvBuilder.CsvStateCensusReadRecord(string[] header, char delimeter, string givenPath)
         {
             throw new NotImplementedException();
         }
 
-        object ICSVBuilder.CsvStateCodeReadRecord(string[] header, char delimeter, string givenPath)
+        object ICsvBuilder.CsvStateCodeReadRecord(string[] header, char delimeter, string givenPath)
         {
             throw new NotImplementedException();
         }
