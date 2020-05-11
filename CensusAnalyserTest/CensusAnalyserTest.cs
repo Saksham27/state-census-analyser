@@ -217,5 +217,16 @@ namespace CensusAnalyserTest
             string mostPopulation = JSONCensus.ReturnDataNumberOfStatesSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "Population");
             Assert.AreEqual(expected, mostPopulation);
         }
+
+        /// <Test 16>
+        /// Test for StateCensuscsv and json path to add into json after sorting return most DensityPerSqKm.
+        /// </Test 16>
+        [Test]
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostDensityPerKmLeast_ReturnDensityPerSqKm()
+        {
+            string expected = "1102";
+            string mostDensityPerKm = JSONCensus.ReturnDataNumberOfStatesSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "DensityPerSqKm");
+            Assert.AreEqual(expected, mostDensityPerKm);
+        }
     } ////end : public class StateCensusAnalyserTest
 } ////end : namespace CensusAnalyserTest
