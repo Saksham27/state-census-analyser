@@ -57,5 +57,29 @@ namespace CensusAnalyser
             File.WriteAllText(jsonFilepath, jsonArray);
             return CsvStateCensusReadRecord.RetriveLastDataOnKey(jsonFilepath, key);
         }
+
+        /// <summary>
+        /// Method to sorting the most population
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="jsonFilepath"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string ReturnDataNumberOfStatesSortCSVFileAndWriteInJson(string filePath, string jsonFilepath, string key)
+        {
+            string readFile = File.ReadAllText(filePath);
+            StringBuilder stringbuilder = new StringBuilder();
+            using (var reader = ChoCSVReader.LoadText(readFile)
+                                            .WithFirstLineHeader())
+            {
+                using (var writer = new ChoJSONWriter(stringbuilder)) writer.Write(reader);
+            }
+            File.WriteAllText(jsonFilepath, stringbuilder.ToString());
+            JArray array = CsvStateCensusReadRecord.SortJsonBasedOnKeyAndValueIsNumber(jsonFilepath, key);
+            var jsonArray = JsonConvert.SerializeObject(array, Formatting.Indented);
+            File.WriteAllText(jsonFilepath, jsonArray);
+            return CsvStateCensusReadRecord.RetriveLastDataOnKey(jsonFilepath, key);
+        }
     }
 }
+

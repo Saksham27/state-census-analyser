@@ -192,7 +192,7 @@ namespace CensusAnalyserTest
         public void CheckStateCensusDataAndAddToJsonPathAndSorting_ReturnFirstStateCode()
         {
             string expected = "AD";
-            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnFirstData(stateCodePath, jsonPathstateCensus, "StateCode");
+            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnFirstData(stateCodePath, jsonPathstateCode, "StateCode");
             Assert.AreEqual(expected, lastValue);
         }
 
@@ -203,8 +203,19 @@ namespace CensusAnalyserTest
         public void CheckStateCensusDataAndAddToJsonPathAndSorting_ReturnLatStateCode()
         {
             string expected = "WB";
-            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnLastData(stateCodePath, jsonPathstateCensus, "StateCode");
+            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnLastData(stateCodePath, jsonPathstateCode, "StateCode");
             Assert.AreEqual(expected, lastValue);
+        }
+
+        /// <Test 15>
+        /// Test for StateCensuscsv and json path to add into json after sorting return most Population.
+        /// </Test 15>
+        [Test]
+        public void CheckStateCensusDataAndAddToJsonPathAndSortFromMostPopulousToLeast_ReturnTheNumberOfSatetesSorted()
+        {
+            string expected = "199812341";
+            string mostPopulation = JSONCensus.ReturnDataNumberOfStatesSortCSVFileAndWriteInJson(stateCensusPath, jsonPathstateCensus, "Population");
+            Assert.AreEqual(expected, mostPopulation);
         }
     } ////end : public class StateCensusAnalyserTest
 } ////end : namespace CensusAnalyserTest

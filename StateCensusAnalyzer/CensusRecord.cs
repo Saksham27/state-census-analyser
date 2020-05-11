@@ -139,6 +139,29 @@ namespace CensusAnalyser
             }
             return CensusArray;
         }
+
+
+        public static JArray SortJsonBasedOnKeyAndValueIsNumber(string jsonPath, string key)
+        {
+            string jsonFile = File.ReadAllText(jsonPath);
+            //parsing a json file
+            JArray CensusArray = JArray.Parse(jsonFile);
+            //sorting in sorting in ascending order
+            for (int i = 0; i < CensusArray.Count - 1; i++)
+            {
+                for (int j = 0; j < CensusArray.Count - i - 1; j++)
+                {
+                    if ((int)CensusArray[j][key] > (int)CensusArray[j + 1][key])
+                    {
+                        var temp = CensusArray[j + 1];
+                        CensusArray[j + 1] = CensusArray[j];
+                        CensusArray[j] = temp;
+                    }
+                }
+            }
+            return CensusArray;
+        }
+
         /// <summary>
         /// Method to retrive the first state data
         /// </summary>
