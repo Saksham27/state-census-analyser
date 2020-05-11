@@ -4,8 +4,9 @@ using System.Text;
 
 namespace CensusAnalyser
 {
-    interface ICsvBuilder
+    public interface ICSVBuilder
     {
-        public dynamic ReadData(string filePath, bool jsonForm = false, bool sorting = false, int sortColoumnNum = 0);
-    } //// end : interface ICensusAnalysisCsv
+        object CsvStateCensusReadRecord(string[] header, char delimeter, string givenPath);
+        object CsvStateCodeReadRecord(string[] header, char delimeter, string givenPath);
+    } //// end : interface ICsvBuilder
 }

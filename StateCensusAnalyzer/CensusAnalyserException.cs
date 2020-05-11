@@ -1,62 +1,27 @@
-﻿namespace CensusAnalyser
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace CensusAnalyser
 {
-    using System;
 
-    public class ExceptionFileNotFound : Exception
+    public class CensusAnalyserException : Exception
     {
-        public StateCensusException FileFoundException;
+        // ExceptionType variable declared
+        ExceptionType exception;
 
-        /// <summary>
-        /// Constructor to initlize wrong file exception
-        /// </summary>
-        /// <param name="exception"> exception type </param>
-        /// <param name="exceptionMessage"> message that passed to base Exception class </param>
-        public ExceptionFileNotFound(StateCensusException exception, string exceptionMessage) : base(exceptionMessage)
+        // enum declaration to give constant values
+        public enum ExceptionType
         {
-            this.FileFoundException = exception;
-        } ////end : public ExceptionFileNotFound(string exception, string exceptionMessage) : base(exceptionMessage)
-    } ////end : public class ExceptionFileNotFound : Exception
-
-    public class ExceptionWrongFile : Exception
-    {
-        public StateCensusException WrongFileException;       
-        
-        /// <summary>
-        /// Constructor to initilize wrong_file_excep
-        /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="exceptionMessage"> message that passed to base Exception class </param>
-        public ExceptionWrongFile(StateCensusException exception, string exceptionMessage) : base(exceptionMessage)
-        {
-            this.WrongFileException = exception;
-        } ////end : public ExceptionWrongFile(string exception, string exceptionMessage) : base(exceptionMessage)
-    } ////end : public class ExceptionWrongFile : Exception
-
-    public class ExceptionWrongDelimeter : Exception
-    {
-        public StateCensusException WrongDelimeter;  
-        /// <summary>
-        /// Constructor to initlize wrong_delimeter variable
-        /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="exceptionMessage"></param>
-        public ExceptionWrongDelimeter(StateCensusException exception, string exceptionMessage) : base(exceptionMessage)
-        {
-            this.WrongDelimeter = exception;
-        } ////end : public ExceptionWrongDelimeter(string exception, string exceptionMessage) : base(exceptionMessage)
-    } ////end : public class ExceptionWrongDelimeter : Exception
-
-    public class ExceptionInvalidHeaders : Exception
-    {
-        public StateCensusException InvalidHeaders;
-        /// <summary>
-        /// Constructor to initlize invalid headers variable
-        /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="exceptionMessage"></param>
-        public ExceptionInvalidHeaders(StateCensusException exception, string exceptionMessage) : base(exceptionMessage)
-        {
-            this.InvalidHeaders = exception;
+            FILE_NOT_FOUND,
+            INVALID_EXTENSION_OF_FILE,
+            INCORRECT_DELIMETER,
+            INVALID_HEADER_ERROR
         }
-    }
-} ////end : namespace StateCensusAnalyzer
+
+        public CensusAnalyserException(ExceptionType exception, string exceptionMessage) : base(exceptionMessage)
+        {
+            this.exception = exception;
+        }
+    }// End of public class CensusAnalyserException:Exception
+}
