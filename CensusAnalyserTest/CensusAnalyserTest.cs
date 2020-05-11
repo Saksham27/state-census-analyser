@@ -17,6 +17,9 @@ namespace CensusAnalyserTest
         // DeligateMethod -------Object-------Reference to delegate method
         readonly CsvStateCensusData stateCensus = CSVFactory.DelegateOfStateCensusAnalyser();
         readonly CsvStateCodeData stateCode = CSVFactory.DelegateOfCsvStates();
+
+        public string stateCensusDataPath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
+        public string stateCodePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
         public string jsonPathstateCensus = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.json";
         public string jsonPathstateCode = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.json";
         [SetUp]
@@ -35,7 +38,7 @@ namespace CensusAnalyserTest
         {
             char delimeter = ',';
             string[] header = { "State", "Population", "AreaInSqKm", "DensityPerSqKm" };
-            string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
+            string path = stateCensusDataPath;
             var numberOfRecords = stateCensus(header, delimeter, path);
             Assert.AreEqual(29, numberOfRecords);
         }
@@ -79,7 +82,7 @@ namespace CensusAnalyserTest
         public void CheckInCorrectDelimeter()
         {
             char userDelimeter = ';';
-            string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
+            string path = stateCensusDataPath;
             object exceptionMessage = stateCensus(null, userDelimeter, path);
             Assert.AreEqual("Incorrect Delimeter", exceptionMessage);
         }
@@ -94,7 +97,7 @@ namespace CensusAnalyserTest
         {
             string[] header = { "State", "InvalidHeader", "AreaInSqKm", "DensityPerSqKm" };
             char userDelimeter = ',';
-            string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
+            string path = stateCensusDataPath;
             object exceptionMessage = stateCensus(header, userDelimeter, path);
             Assert.AreEqual("Invalid Header", exceptionMessage);
         }
@@ -111,7 +114,7 @@ namespace CensusAnalyserTest
         {
             char delimeter = ',';
             string[] header = { "SrNo", "State", "TIN", "StateCode" };
-            string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
+            string path = stateCodePath;
             var numberOfRecords = stateCode(header, delimeter, path);
             Assert.AreEqual(37, numberOfRecords);
         }
@@ -156,7 +159,7 @@ namespace CensusAnalyserTest
         {
             char delimeter = ';';
             string[] header = { "SrNo", "State", "PIN", "StateCode" };
-            string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
+            string path = stateCodePath;
             object exceptionMessage = stateCode(header, delimeter, path);
             Assert.AreEqual("Incorrect Delimeter", exceptionMessage);
         }
@@ -171,7 +174,7 @@ namespace CensusAnalyserTest
         {
             char delimeter = ',';
             string[] header = { "SrNo", "InvalidState", "PIN", "StateCode" };
-            string path = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
+            string path = stateCodePath;
             object exceptionMessage = stateCode(header, delimeter, path);
             Assert.AreEqual("Invalid Header", exceptionMessage);
         }
@@ -183,8 +186,7 @@ namespace CensusAnalyserTest
         public void CheckStateCensusDataAndAddToJsonPathAndSorting_ReturnFirstState()
         {
             string expected = "Andhra Pradesh";
-            string stateCensusfilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
-            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnFirstData(stateCensusfilePath, jsonPathstateCensus, "State");
+            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnFirstData(stateCensusPath, jsonPathstateCensus, "State");
             Assert.AreEqual(expected, lastValue);
         }
         /// <Test 12>
@@ -194,8 +196,7 @@ namespace CensusAnalyserTest
         public void CheckStateCensusDataAndAddToJsonPathAndSorting__ReturnLastState()
         {
             string expected = "West Bengal";
-            string stateCensusfilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCensusData.csv";
-            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnLastData(stateCensusfilePath, jsonPathstateCensus, "State");
+            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnLastData(stateCensusPath, jsonPathstateCensus, "State");
             Assert.AreEqual(expected, lastValue);
         }
 
@@ -206,8 +207,7 @@ namespace CensusAnalyserTest
         public void CheckStateCensusDataAndAddToJsonPathAndSorting_ReturnFirstStateCode()
         {
             string expected = "AD";
-            string stateCensusfilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
-            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnFirstData(stateCensusfilePath, jsonPathstateCensus, "StateCode");
+            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnFirstData(stateCodePath, jsonPathstateCensus, "StateCode");
             Assert.AreEqual(expected, lastValue);
         }
 
@@ -218,8 +218,7 @@ namespace CensusAnalyserTest
         public void CheckStateCensusDataAndAddToJsonPathAndSorting_ReturnLatStateCode()
         {
             string expected = "WB";
-            string stateCensusfilePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
-            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnLastData(stateCensusfilePath, jsonPathstateCensus, "StateCode");
+            string lastValue = JSONCensus.SortCsvFileWriteInJsonAndReturnLastData(stateCodePath, jsonPathstateCensus, "StateCode");
             Assert.AreEqual(expected, lastValue);
         }
     } ////end : public class StateCensusAnalyserTest
