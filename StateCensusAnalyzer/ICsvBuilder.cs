@@ -8,5 +8,6 @@ namespace CensusAnalyser
     {
         object CsvStateCensusReadRecord(string[] header, char delimeter, string givenPath);
         object CsvStateCodeReadRecord(string[] header, char delimeter, string givenPath);
+        object CsvUSCensusDataReadRecord(string[] header, char delimeter, string givenPath);
     } //// end : interface ICsvBuilder
 }

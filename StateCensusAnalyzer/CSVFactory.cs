@@ -21,12 +21,26 @@ namespace CensusAnalyser
             return getStateCensus;
         }
 
+        
         // Method to creating instance of CsvStates
         public static CsvStateCodeDataDao DelegateOfCsvStates()
         {
             CSVStatesDao csvStateData = InstanceOfCsvStates();
             CsvStateCodeDataDao getStateData = new CsvStateCodeDataDao(CSVStatesDao.CsvStateCodeReadRecord);
             return getStateData;
+        }
+
+        // Method to creating instance of USCensusData
+        public static CsvUSCensusData DelegateOfUSCensusData()
+        {
+            USCensusDataDao csvUSData = InstanceOfUSCensusData();
+            CsvUSCensusData getUSData = new CsvUSCensusData(USCensusDataDao.CsvUSCensusDataReadRecord);
+            return getUSData;
+        }
+
+        private static USCensusDataDao InstanceOfUSCensusData()
+        {
+            throw new NotImplementedException();
         }
 
         private static CSVStatesDao InstanceOfCsvStates()

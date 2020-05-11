@@ -30,6 +30,10 @@ namespace CensusAnalyserTest
         public string[] headerStateCode = { "SrNo", "State", "TIN", "StateCode" };
         public string[] headerStateCodeInvalid = { "SrNo", "StateInvalid", "PIN", "StateCode" };
 
+        // FilePath and Headers of USCensusData
+        public string USDataPath = @"C:\Users\Admin\source\repos\CensusAnalyserProblem\CensusAnalyserProblem\USCensusData.csv";
+        public string[] headerUSData = { "State Id", "State", "Population", "Housing units", "Total area", "Water area", "Land area", "Population Density", "Housing Density" };
+
         // Correct and Incorrect Delimeter
         char delimeter = ',';
         char IncorrectDelimeter = ';';
