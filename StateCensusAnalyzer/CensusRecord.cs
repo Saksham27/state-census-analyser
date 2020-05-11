@@ -99,6 +99,27 @@ namespace CensusAnalyser
             return true;
         }//End of isHeadersame
 
+        public int CountRecords(string[] records)
+        {
+            int j = 1;
+            Dictionary<int, Dictionary<string, string>> map = new Dictionary<int, Dictionary<string, string>>();
+            string[] key = records[0].Split(',');
+            for (int i = 1; i < records.Length; i++)
+            {
+                string[] value = records[i].Split(',');
+                Dictionary<string, string> maping = new Dictionary<string, string>()
+                {
+                  { key[0], value[0] },
+                  { key[1], value[1] },
+                  { key[2], value[2] },
+                  { key[3], value[3] },
+                };
+                map.Add(j, maping);
+                j++;
+            }
+            return map.Count;
+        }
+
         public static JArray SortingJsonBasedOnKey(string jsonFilePath, string key)
         {
             string jsonFile = File.ReadAllText(jsonFilePath);
