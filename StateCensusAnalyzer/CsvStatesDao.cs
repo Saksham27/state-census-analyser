@@ -6,10 +6,10 @@ namespace CensusAnalyser
     {
         public static string stateCodePath = @"C:\Users\Saksham\source\repos\StateCensusAnalyzer\StateCode.csv";
         // variables declaration
-        public string stateCensusFilePath;
-        public char delimeter;
-        public string[] header;
-        public string givenPath;
+        public string stateCensusFilePath { get; set; }
+        public char delimeter { get; set; }
+        public string[] header { get; set; }
+        public string givenPath { get; set; }
 
         // Default Constructor
         public CSVStatesDao()
